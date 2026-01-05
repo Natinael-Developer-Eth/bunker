@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README Preview</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="markdown-body">
+    <div id="content">Loading README...</div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        fetch('./README.md')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(text => {
+                document.getElementById('content').innerHTML = marked.parse(text);
+            })
+            .catch(error => {
+                document.getElementById('content').innerHTML = `
+                    <div style="color: red; border: 1px solid red; padding: 20px;">
+                        <h3>Error Loading README</h3>
+                        <p>${error.message}</p>
+                        <p><strong>Troubleshooting:</strong></p>
+                        <ul>
+                            <li>Ensure you are running a local server (e.g., <code>npx http-server</code> or <code>python -m http.server</code>) in the project root.</li>
+                            <li>Ensure <code>README.md</code> exists in the same directory as this file.</li>
+                        </ul>
+                    </div>
+                `;
+            });
+    </script>
+</body>
+
+</html>
